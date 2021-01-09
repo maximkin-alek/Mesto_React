@@ -1,5 +1,6 @@
 import React from 'react';
 import api from '../utils/Api';
+import Card from './Card'
 
 function Main(props) {
 
@@ -21,8 +22,6 @@ function Main(props) {
                 console.log(err);
             })
 
-
-
     }, [])
 
     React.useEffect(() => {
@@ -36,8 +35,6 @@ function Main(props) {
                 console.log(err);
             })
     }, []);
-
-
 
     return (
         <>
@@ -53,23 +50,10 @@ function Main(props) {
                 </div>
             </div>
             <div className="places-list root__section">
-                {cards.map((card, i) => 
-                    (
-                        <div className="place-card" key={card._id}>
-                            <div className="place-card__image" style={{ backgroundImage: `url(${card.link})` }}>
-                                // настроить отображение иконки корзины
-                                <button  className={ "place-card__delete-icon  place-card__delete-icon_hidden"}></button>
-                            </div>
-                            <div className="place-card__description">
-                                <h3 className="place-card__name">{card.name}</h3>
-                                <div className="place-card__like-group">
-                                    <button className="place-card__like-icon place-card__like-icon_liked">
-                                    </button>
-                                    <p className="place-card__like-counter">{card.likes.length}</p>
-                                </div>
-                            </div>
-                        </div>
-                    )
+                {cards.map((cardItem, i) =>
+                (
+                    <Card card={cardItem} key={cardItem._id} onCardClick={props.onCardClick} />
+                )
                 )}
             </div>
 

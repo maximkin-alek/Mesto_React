@@ -9,6 +9,7 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState({});
 
   function handleAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -26,13 +27,23 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setSelectedCard({ isOpen: false });
+  }
+
+  function handleCardClick(e) {
+
+    setSelectedCard({
+      ...selectedCard,
+      isOpen: true,
+      link: e.link,
+    })
   }
 
   return (
 
     <div className="root">
       <Header />
-      <Main onEditAvatar={handleAvatarClick} onAddPlace={handleAddPlaceClick} onEditProfile={handleEditProfileClick} onClose={closeAllPopups} />
+      <Main onEditAvatar={handleAvatarClick} onAddPlace={handleAddPlaceClick} onEditProfile={handleEditProfileClick} onClose={closeAllPopups} onCardClick={handleCardClick} />
 
       <PopupWithForm name='add-card' title='Новое место' id='form-add' isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
         <input type="text" name="name" id="title" className="popup__input popup__input_type_name" minLength="2" maxLength="30" placeholder="Название" required />
@@ -57,7 +68,7 @@ function App() {
         <span className="error-messege" id="error-info"></span>
         <button type="submit" className="button popup__button popup-edit-card__button" disabled>Сохранить</button>
       </PopupWithForm>
-      <ImagePopup />
+      <ImagePopup card={selectedCard} onClose={closeAllPopups} />
     </div>
   );
 }
